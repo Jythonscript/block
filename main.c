@@ -34,6 +34,7 @@ void copyStdin() {
 		buf[numchars] = c;
 		numchars++;
 	}
+	buf[numchars] = '\0';
 	//printf("memory allocated: %ld bytes\n", bufsize);
 	//printf("'''%s'''\n", buf);
 }
@@ -44,11 +45,25 @@ unsigned long int getLongestLineLength() {
 	unsigned long int maxlen = 0;
 	unsigned long int currentlen = 0;
 
-	puts(buf);
-
 	unsigned long int index = 0;
-	for (index = 0; buf[index] != EOF; index++) {
-		putchar(buf[index]);
+	for (index = 0; buf[index] != '\0' && buf[index] != EOF; index++) {
+
+		printf("%ld\t%ld\n", currentlen, maxlen);
+		if (buf[index] == '\n' || buf[index] == '\0' || buf[index] == EOF) {
+			if (currentlen >= maxlen) {
+				maxlen = currentlen;
+			}
+			currentlen = 0;
+		}
+		else {
+			currentlen++;
+		}
+	} //end for
+	if (buf[index] == '\n' || buf[index] == '\0' || buf[index] == EOF) {
+		if (currentlen >= maxlen) {
+			maxlen = currentlen;
+		}
 	}
+
 	return maxlen;
 }
